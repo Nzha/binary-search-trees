@@ -5,8 +5,33 @@ const Node = (data) => {
 };
 
 const Tree = (array) => {
-  root = buildTree(array);
-  return { root };
+  root = buildTree(array, 0, array.length - 1);
+
+  const insert = (root, value) => {
+    // If tree is empty, return a new node
+    if (root === null) root = Node(value);
+
+    // Otherwise, recur down the tree
+    if (value < root.data) {
+      root.left = insert(root.left, value);
+    } else if (value > root.data) {
+      root.right = insert(root.right, value);
+    }
+
+    return root;
+  };
+
+  const prettyPrint = (node, prefix = '', isLeft = true) => {
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
+    }
+    console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
+    }
+  };
+
+  return { root, insert, prettyPrint };
 };
 
 const buildTree = (array, start, end) => {
@@ -21,16 +46,6 @@ const buildTree = (array, start, end) => {
   return root;
 };
 
-const prettyPrint = (node, prefix = '', isLeft = true) => {
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
-  }
-  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
-  }
-};
-
 const formatArray = (arr) => {
   const sortedArr = arr.sort((a, b) => a - b);
   const removeDupArr = sortedArr.filter((el, index) => {
@@ -38,11 +53,12 @@ const formatArray = (arr) => {
   });
   console.log(removeDupArr);
   return removeDupArr;
-}
+};
 
-// const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
+const formatArr = formatArray(arr);
 
-let tree = buildTree(formatArray(arr), 0, 8);
+let myFirstTree = Tree(formatArr);
 
-prettyPrint(tree);
+myFirstTree.insert(myFirstTree.root, 81);
+myFirstTree.prettyPrint(myFirstTree.root);
