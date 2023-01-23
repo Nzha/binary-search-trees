@@ -7,20 +7,58 @@ const Node = (data) => {
 const Tree = (array) => {
   root = buildTree(array, 0, array.length - 1);
 
-  const insert = (root, value) => {
+  const insertNode = (root, value) => {
     // If tree is empty, return a new node
-    if (root === null) root = Node(value);
+    if (!root) root = Node(value);
 
     // Otherwise, recur down the tree
     if (value < root.data) {
-      root.left = insert(root.left, value);
+      root.left = insertNode(root.left, value);
     } else if (value > root.data) {
-      root.right = insert(root.right, value);
+      root.right = insertNode(root.right, value);
     }
 
     return root;
   };
 
+  const deleteNode = (root, value) => {
+    // console.log(root);
+    // If tree is empty, return a new node
+    if (!root) return root;
+
+    // Otherwise, recur down the tree
+    if (value < root.data) {
+      root.left = deleteNode(root.left, value);
+    } else if (value > root.data) {
+      root.right = deleteNode(root.right, value);
+    } else {
+      // If node has no child (i.e. is a leaf) or only one child
+      if (!root.left) {
+        return root.right;
+      } else if (!root.right) {
+        return root.left;
+      }
+
+      // If node has 2 children
+      if (root.left && root.right) {
+        root.data = minValue(root.right);
+        root.right = deleteNode(root.right, root.data);
+      }
+    }
+
+    return root;
+  };
+
+  const minValue = (root) => {
+    let minValue = root.data;
+    while (root.left) {
+      minValue = root.left.data;
+      root = root.left;
+    }
+    return minValue;
+  };
+
+  // Console.log tree in a nice manner
   const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
@@ -31,7 +69,7 @@ const Tree = (array) => {
     }
   };
 
-  return { root, insert, prettyPrint };
+  return { root, insertNode, deleteNode, minValue, prettyPrint };
 };
 
 const buildTree = (array, start, end) => {
@@ -60,5 +98,7 @@ const formatArr = formatArray(arr);
 
 let myFirstTree = Tree(formatArr);
 
-myFirstTree.insert(myFirstTree.root, 81);
+myFirstTree.insertNode(myFirstTree.root, 81);
+myFirstTree.deleteNode(myFirstTree.root, 4);
+// console.log(myFirstTree.minValue(myFirstTree.root));
 myFirstTree.prettyPrint(myFirstTree.root);
