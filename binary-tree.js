@@ -22,7 +22,6 @@ const Tree = (array) => {
   };
 
   const deleteNode = (root, value) => {
-    // console.log(root);
     // If tree is empty, return a new node
     if (!root) return root;
 
@@ -58,6 +57,17 @@ const Tree = (array) => {
     return minValue;
   };
 
+  const find = (root, value) => {
+    if (root === null) return false;
+    if (root.data === value) return root;
+    
+    if (value < root.data) {
+      return find(root.left, value);
+    } else if (value > root.data) {
+      return find(root.right, value);
+    }
+  };
+
   // Console.log tree in a nice manner
   const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.right !== null) {
@@ -69,7 +79,7 @@ const Tree = (array) => {
     }
   };
 
-  return { root, insertNode, deleteNode, minValue, prettyPrint };
+  return { root, insertNode, deleteNode, minValue, find, prettyPrint };
 };
 
 const buildTree = (array, start, end) => {
@@ -99,6 +109,7 @@ const formatArr = formatArray(arr);
 let myFirstTree = Tree(formatArr);
 
 myFirstTree.insertNode(myFirstTree.root, 81);
-myFirstTree.deleteNode(myFirstTree.root, 4);
+// myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
+// console.log(myFirstTree.find(myFirstTree.root, 4));
 myFirstTree.prettyPrint(myFirstTree.root);
