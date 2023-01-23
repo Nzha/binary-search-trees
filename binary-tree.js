@@ -59,13 +59,14 @@ const Tree = (array) => {
 
   const find = (root, value) => {
     if (root === null) return false;
-    if (root.data === value) return root;
     
     if (value < root.data) {
       return find(root.left, value);
     } else if (value > root.data) {
       return find(root.right, value);
     }
+
+    return root;
   };
 
   // Console.log tree in a nice manner
@@ -111,5 +112,5 @@ let myFirstTree = Tree(formatArr);
 myFirstTree.insertNode(myFirstTree.root, 81);
 // myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
-// console.log(myFirstTree.find(myFirstTree.root, 4));
+// console.log(myFirstTree.find(myFirstTree.root, 8));
 myFirstTree.prettyPrint(myFirstTree.root);
