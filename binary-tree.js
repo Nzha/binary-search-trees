@@ -69,6 +69,7 @@ const Tree = (array) => {
     return root;
   };
 
+  // BREADTH FIRST SEARCH TRAVERSAL(BFS)
   const levelOrder = (callback) => {
     let result = [];
     let queue = [];
@@ -87,10 +88,11 @@ const Tree = (array) => {
     if (!callback) return result;
   };
 
+  // DEPTH FIRST SEARCH TRAVERSAL (DFS)
   // Root — Left — Right
   const preorder = (root, callback, result = []) => {
     if (!root) return result;
-    (callback) ? callback(root.data) : result.push(root.data);
+    callback ? callback(root.data) : result.push(root.data);
     preorder(root.left, callback, result);
     preorder(root.right, callback, result);
     return result;
@@ -100,7 +102,7 @@ const Tree = (array) => {
   const inorder = (root, callback, result = []) => {
     if (!root) return result;
     inorder(root.left, callback, result);
-    (callback) ? callback(root.data) : result.push(root.data);
+    callback ? callback(root.data) : result.push(root.data);
     inorder(root.right, callback, result);
     return result;
   };
@@ -110,7 +112,7 @@ const Tree = (array) => {
     if (!root) return result;
     postorder(root.left, callback, result);
     postorder(root.right, callback, result);
-    (callback) ? callback(root.data) : result.push(root.data);
+    callback ? callback(root.data) : result.push(root.data);
     return result;
   };
 
