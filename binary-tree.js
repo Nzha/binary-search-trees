@@ -69,7 +69,7 @@ const Tree = (array) => {
     return root;
   };
 
-  const levelOrder = (root) => {
+  const levelOrder = (callback) => {
     let result = [];
     let queue = [];
     queue.push(root);
@@ -81,10 +81,10 @@ const Tree = (array) => {
       result.push(current.data);
       if (current.left !== null) queue.push(current.left);
       if (current.right !== null) queue.push(current.right);
+      if (callback) callback(current.data);
     }
 
-    console.log(result);
-    return result;
+    if (!callback) return result;
   };
 
   // Console.log tree in a nice manner
@@ -139,5 +139,5 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
-myFirstTree.levelOrder(myFirstTree.root);
+// console.log(myFirstTree.levelOrder());
 myFirstTree.prettyPrint(myFirstTree.root);
