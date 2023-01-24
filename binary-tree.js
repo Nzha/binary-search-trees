@@ -59,7 +59,7 @@ const Tree = (array) => {
 
   const find = (root, value) => {
     if (root === null) return false;
-    
+
     if (value < root.data) {
       return find(root.left, value);
     } else if (value > root.data) {
@@ -67,6 +67,24 @@ const Tree = (array) => {
     }
 
     return root;
+  };
+
+  const levelOrder = (root) => {
+    let result = [];
+    let queue = [];
+    queue.push(root);
+
+    if (root === null) return result;
+
+    while (queue.length !== 0) {
+      let current = queue.shift();
+      result.push(current.data);
+      if (current.left !== null) queue.push(current.left);
+      if (current.right !== null) queue.push(current.right);
+    }
+
+    console.log(result);
+    return result;
   };
 
   // Console.log tree in a nice manner
@@ -80,7 +98,15 @@ const Tree = (array) => {
     }
   };
 
-  return { root, insertNode, deleteNode, minValue, find, prettyPrint };
+  return {
+    root,
+    insertNode,
+    deleteNode,
+    minValue,
+    find,
+    levelOrder,
+    prettyPrint,
+  };
 };
 
 const buildTree = (array, start, end) => {
@@ -113,4 +139,5 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
+myFirstTree.levelOrder(myFirstTree.root);
 myFirstTree.prettyPrint(myFirstTree.root);
