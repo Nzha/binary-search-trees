@@ -87,12 +87,30 @@ const Tree = (array) => {
     if (!callback) return result;
   };
 
+  // Root — Left — Right
+  const preorder = (root, callback, result = []) => {
+    if (!root) return result;
+    (callback) ? callback(root.data) : result.push(root.data);
+    preorder(root.left, callback, result);
+    preorder(root.right, callback, result);
+    return result;
+  };
+
   // Left — Root — Right
   const inorder = (root, callback, result = []) => {
     if (!root) return result;
     inorder(root.left, callback, result);
     (callback) ? callback(root.data) : result.push(root.data);
     inorder(root.right, callback, result);
+    return result;
+  };
+
+  // Left — Right — Root
+  const postorder = (root, callback, result = []) => {
+    if (!root) return result;
+    postorder(root.left, callback, result);
+    postorder(root.right, callback, result);
+    (callback) ? callback(root.data) : result.push(root.data);
     return result;
   };
 
@@ -114,7 +132,9 @@ const Tree = (array) => {
     minValue,
     find,
     levelOrder,
+    preorder,
     inorder,
+    postorder,
     prettyPrint,
   };
 };
@@ -150,5 +170,7 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
 // console.log(myFirstTree.levelOrder());
-console.log(myFirstTree.inorder(myFirstTree.root));
+// console.log(myFirstTree.preorder(myFirstTree.root));
+// console.log(myFirstTree.inorder(myFirstTree.root));
+console.log(myFirstTree.postorder(myFirstTree.root));
 myFirstTree.prettyPrint(myFirstTree.root);
