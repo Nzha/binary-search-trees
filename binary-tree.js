@@ -72,19 +72,28 @@ const Tree = (array) => {
   const levelOrder = (callback) => {
     let result = [];
     let queue = [];
-    queue.push(root);
+    queue.push(this.root);
 
-    if (root === null) return result;
+    if (!this.root) return result;
 
     while (queue.length !== 0) {
       let current = queue.shift();
       result.push(current.data);
-      if (current.left !== null) queue.push(current.left);
-      if (current.right !== null) queue.push(current.right);
+      if (current.left) queue.push(current.left);
+      if (current.right) queue.push(current.right);
       if (callback) callback(current.data);
     }
 
     if (!callback) return result;
+  };
+
+  // Left — Root — Right
+  const inorder = (root, callback, result = []) => {
+    if (!root) return result;
+    inorder(root.left, callback, result);
+    (callback) ? callback(root.data) : result.push(root.data);
+    inorder(root.right, callback, result);
+    return result;
   };
 
   // Console.log tree in a nice manner
@@ -105,6 +114,7 @@ const Tree = (array) => {
     minValue,
     find,
     levelOrder,
+    inorder,
     prettyPrint,
   };
 };
@@ -140,4 +150,5 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
 // console.log(myFirstTree.levelOrder());
+console.log(myFirstTree.inorder(myFirstTree.root));
 myFirstTree.prettyPrint(myFirstTree.root);
