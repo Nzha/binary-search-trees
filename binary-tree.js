@@ -70,12 +70,12 @@ const Tree = (array) => {
   };
 
   // BREADTH FIRST SEARCH TRAVERSAL(BFS)
-  const levelOrder = (callback) => {
+  const levelOrder = (root, callback) => {
     let result = [];
     let queue = [];
-    queue.push(this.root);
+    queue.push(root);
 
-    if (!this.root) return result;
+    if (!root) return result;
 
     while (queue.length !== 0) {
       let current = queue.shift();
@@ -119,7 +119,7 @@ const Tree = (array) => {
   const height = (root) => {
     // Empty trees have a height of -1;
     if (!root) return -1;
-  
+
     const leftHeight = height(root.left);
     const rightHeight = height(root.right);
     return Math.max(leftHeight, rightHeight) + 1;
@@ -131,6 +131,13 @@ const Tree = (array) => {
     const rightHeight = height(root.right);
     const difference = Math.abs(leftHeight - rightHeight);
     return !(difference > 1);
+  };
+
+  const rebalance = (root) => {
+    if (!root) return;
+    const sortedArray = inorder(root);
+    const newTree = buildTree(sortedArray, 0, sortedArray.length - 1);
+    return newTree;
   };
 
   // Console.log tree in a nice manner
@@ -156,6 +163,7 @@ const Tree = (array) => {
     postorder,
     height,
     isBalanced,
+    rebalance,
     prettyPrint,
   };
 };
@@ -185,15 +193,26 @@ const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
 const formatArr = formatArray(arr);
 
 let myFirstTree = Tree(formatArr);
+let mySecondTree = Tree(formatArray([1, 3, 2, 4]));
 
 // myFirstTree.insertNode(myFirstTree.root, 81);
 // myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
-// console.log(myFirstTree.levelOrder());
+// console.log(myFirstTree.levelOrder(myFirstTree.root));
 // console.log(myFirstTree.preorder(myFirstTree.root));
 // console.log(myFirstTree.inorder(myFirstTree.root));
 // console.log(myFirstTree.postorder(myFirstTree.root));
 // console.log(myFirstTree.height(myFirstTree.root));
-console.log(myFirstTree.isBalanced(myFirstTree.root));
-myFirstTree.prettyPrint(myFirstTree.root);
+// console.log(myFirstTree.isBalanced(myFirstTree.root));
+// myFirstTree.prettyPrint(myFirstTree.root);
+
+mySecondTree.insertNode(mySecondTree.root, 8);
+mySecondTree.insertNode(mySecondTree.root, 10);
+mySecondTree.insertNode(mySecondTree.root, 11);
+mySecondTree.insertNode(mySecondTree.root, 9);
+console.log(mySecondTree.isBalanced(mySecondTree.root));
+mySecondTree.prettyPrint(mySecondTree.root);
+mySecondTree.prettyPrint(mySecondTree.rebalance(mySecondTree.root));
+mySecondTree.rebalance(mySecondTree.root);
+console.log(mySecondTree.isBalanced(mySecondTree.rebalance(mySecondTree.root)));
