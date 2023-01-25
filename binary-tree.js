@@ -116,6 +116,13 @@ const Tree = (array) => {
     return result;
   };
 
+  const height = (root) => {
+    if (!root) return -1;
+    const leftHeight = height(root.left);
+    const rightHeight = height(root.right);
+    return Math.max(leftHeight, rightHeight) + 1;
+  };
+
   // Console.log tree in a nice manner
   const prettyPrint = (node, prefix = '', isLeft = true) => {
     if (node.right !== null) {
@@ -137,6 +144,7 @@ const Tree = (array) => {
     preorder,
     inorder,
     postorder,
+    height,
     prettyPrint,
   };
 };
@@ -174,5 +182,6 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // console.log(myFirstTree.levelOrder());
 // console.log(myFirstTree.preorder(myFirstTree.root));
 // console.log(myFirstTree.inorder(myFirstTree.root));
-console.log(myFirstTree.postorder(myFirstTree.root));
+// console.log(myFirstTree.postorder(myFirstTree.root));
+console.log(myFirstTree.height(myFirstTree.root));
 myFirstTree.prettyPrint(myFirstTree.root);
