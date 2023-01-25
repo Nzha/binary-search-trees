@@ -117,10 +117,20 @@ const Tree = (array) => {
   };
 
   const height = (root) => {
+    // Empty trees have a height of -1;
     if (!root) return -1;
+  
     const leftHeight = height(root.left);
     const rightHeight = height(root.right);
     return Math.max(leftHeight, rightHeight) + 1;
+  };
+
+  const isBalanced = (root) => {
+    if (!root) return -1;
+    const leftHeight = height(root.left);
+    const rightHeight = height(root.right);
+    const difference = Math.abs(leftHeight - rightHeight);
+    return !(difference > 1);
   };
 
   // Console.log tree in a nice manner
@@ -145,6 +155,7 @@ const Tree = (array) => {
     inorder,
     postorder,
     height,
+    isBalanced,
     prettyPrint,
   };
 };
@@ -175,7 +186,7 @@ const formatArr = formatArray(arr);
 
 let myFirstTree = Tree(formatArr);
 
-myFirstTree.insertNode(myFirstTree.root, 81);
+// myFirstTree.insertNode(myFirstTree.root, 81);
 // myFirstTree.deleteNode(myFirstTree.root, 4);
 // console.log(myFirstTree.minValue(myFirstTree.root));
 // console.log(myFirstTree.find(myFirstTree.root, 8));
@@ -183,5 +194,6 @@ myFirstTree.insertNode(myFirstTree.root, 81);
 // console.log(myFirstTree.preorder(myFirstTree.root));
 // console.log(myFirstTree.inorder(myFirstTree.root));
 // console.log(myFirstTree.postorder(myFirstTree.root));
-console.log(myFirstTree.height(myFirstTree.root));
+// console.log(myFirstTree.height(myFirstTree.root));
+console.log(myFirstTree.isBalanced(myFirstTree.root));
 myFirstTree.prettyPrint(myFirstTree.root);
