@@ -7,52 +7,52 @@ const Node = (data) => {
 const Tree = (array) => {
   root = buildTree(array, 0, array.length - 1);
 
-  const insertNode = (root, value) => {
+  const insertNode = (node, value) => {
     // If tree is empty, return a new node
-    if (!root) root = Node(value);
+    if (!node) node = Node(value);
 
     // Otherwise, recur down the tree
-    if (value < root.data) {
-      root.left = insertNode(root.left, value);
-    } else if (value > root.data) {
-      root.right = insertNode(root.right, value);
+    if (value < node.data) {
+      node.left = insertNode(node.left, value);
+    } else if (value > node.data) {
+      node.right = insertNode(node.right, value);
     }
 
-    return root;
+    return node;
   };
 
-  const deleteNode = (root, value) => {
+  const deleteNode = (node, value) => {
     // If tree is empty, return a new node
-    if (!root) return root;
+    if (!node) return root;
 
     // Otherwise, recur down the tree
-    if (value < root.data) {
-      root.left = deleteNode(root.left, value);
-    } else if (value > root.data) {
-      root.right = deleteNode(root.right, value);
+    if (value < node.data) {
+      node.left = deleteNode(node.left, value);
+    } else if (value > node.data) {
+      node.right = deleteNode(node.right, value);
     } else {
       // If node has no child (i.e. is a leaf) or only one child
-      if (!root.left) {
-        return root.right;
-      } else if (!root.right) {
-        return root.left;
+      if (!node.left) {
+        return node.right;
+      } else if (!node.right) {
+        return node.left;
       }
 
       // If node has 2 children
-      if (root.left && root.right) {
-        root.data = minValue(root.right);
-        root.right = deleteNode(root.right, root.data);
+      if (node.left && node.right) {
+        node.data = minValue(node.right);
+        node.right = deleteNode(node.right, node.data);
       }
     }
 
-    return root;
+    return node;
   };
 
-  const minValue = (root) => {
-    let minValue = root.data;
-    while (root.left) {
-      minValue = root.left.data;
-      root = root.left;
+  const minValue = (node = root) => {
+    let minValue = node.data;
+    while (node.left) {
+      minValue = node.left.data;
+      node = node.left;
     }
     return minValue;
   };
@@ -89,7 +89,7 @@ const Tree = (array) => {
   };
 
   // DEPTH FIRST SEARCH TRAVERSAL (DFS)
-  // Root — Left — Right
+  // Root/Node — Left — Right
   const preorder = (root, callback, result = []) => {
     if (!root) return result;
     callback ? callback(root.data) : result.push(root.data);
@@ -98,7 +98,7 @@ const Tree = (array) => {
     return result;
   };
 
-  // Left — Root — Right
+  // Left — Root/Node — Right
   const inorder = (root, callback, result = []) => {
     if (!root) return result;
     inorder(root.left, callback, result);
@@ -107,7 +107,7 @@ const Tree = (array) => {
     return result;
   };
 
-  // Left — Right — Root
+  // Left — Right — Root/Node
   const postorder = (root, callback, result = []) => {
     if (!root) return result;
     postorder(root.left, callback, result);
@@ -116,32 +116,32 @@ const Tree = (array) => {
     return result;
   };
 
-  const height = (root) => {
+  const height = (node = root) => {
     // Empty trees have a height of -1;
-    if (!root) return -1;
+    if (!node) return -1;
 
-    const leftHeight = height(root.left);
-    const rightHeight = height(root.right);
+    const leftHeight = height(node.left);
+    const rightHeight = height(node.right);
     return Math.max(leftHeight, rightHeight) + 1;
   };
 
-  const isBalanced = (root) => {
-    if (!root) return -1;
-    const leftHeight = height(root.left);
-    const rightHeight = height(root.right);
+  const isBalanced = (node = root) => {
+    if (!node) return -1;
+    const leftHeight = height(node.left);
+    const rightHeight = height(node.right);
     const difference = Math.abs(leftHeight - rightHeight);
     return !(difference > 1);
   };
 
-  const rebalance = (root) => {
-    if (!root) return;
-    const sortedArray = inorder(root);
+  const rebalance = (node) => {
+    if (!node) return;
+    const sortedArray = inorder(node);
     const newTree = buildTree(sortedArray, 0, sortedArray.length - 1);
     return newTree;
   };
 
   // Console.log tree in a nice manner
-  const prettyPrint = (node, prefix = '', isLeft = true) => {
+  const prettyPrint = (node = root, prefix = '', isLeft = true) => {
     if (node.right !== null) {
       prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false);
     }
@@ -205,10 +205,10 @@ console.log(formatArr);
 
 let myFirstTree = Tree(formatArr);
 
-myFirstTree.prettyPrint(myFirstTree.root);
-console.log(`Balanced: ${myFirstTree.isBalanced(myFirstTree.root)}`);
-console.log(`Height: ${myFirstTree.height(myFirstTree.root)}`);
-console.log(`Min: ${myFirstTree.minValue(myFirstTree.root)}`);
+myFirstTree.prettyPrint();
+console.log(`Balanced: ${myFirstTree.isBalanced()}`);
+console.log(`Height: ${myFirstTree.height()}`);
+console.log(`Min: ${myFirstTree.minValue()}`);
 console.log(myFirstTree.levelOrder(myFirstTree.root));
 console.log(myFirstTree.preorder(myFirstTree.root));
 console.log(myFirstTree.inorder(myFirstTree.root));
@@ -218,9 +218,9 @@ myFirstTree.insertNode(myFirstTree.root, randomInt());
 myFirstTree.insertNode(myFirstTree.root, randomInt());
 myFirstTree.insertNode(myFirstTree.root, randomInt());
 myFirstTree.insertNode(myFirstTree.root, randomInt());
-myFirstTree.prettyPrint(myFirstTree.root);
-console.log(`Balanced: ${myFirstTree.isBalanced(myFirstTree.root)}`);
-console.log(`Height: ${myFirstTree.height(myFirstTree.root)}`);
+myFirstTree.prettyPrint();
+console.log(`Balanced: ${myFirstTree.isBalanced()}`);
+console.log(`Height: ${myFirstTree.height()}`);
 
 const rebalancedTree = myFirstTree.rebalance(myFirstTree.root);
 myFirstTree.prettyPrint(rebalancedTree);
