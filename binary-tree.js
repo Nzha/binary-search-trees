@@ -185,34 +185,44 @@ const formatArray = (arr) => {
   const removeDupArr = sortedArr.filter((el, index) => {
     return sortedArr.indexOf(el) === index;
   });
-  console.log(removeDupArr);
   return removeDupArr;
 };
 
-const arr = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-const formatArr = formatArray(arr);
+const randomArray = () => {
+  let array = [];
+  let arrayLength = Math.floor(Math.random() * (20 - 10)) + 10;
+  for (let i = 0; i < arrayLength; i++) {
+    let randomInt = Math.floor(Math.random() * 99) + 1;
+    array.push(randomInt);
+  }
+  return array;
+};
+
+const randomInt = () => Math.floor(Math.random() * 999) + 1;
+
+const formatArr = formatArray(randomArray());
+console.log(formatArr);
 
 let myFirstTree = Tree(formatArr);
-let mySecondTree = Tree(formatArray([1, 3, 2, 4]));
 
-// myFirstTree.insertNode(myFirstTree.root, 81);
-// myFirstTree.deleteNode(myFirstTree.root, 4);
-// console.log(myFirstTree.minValue(myFirstTree.root));
-// console.log(myFirstTree.find(myFirstTree.root, 8));
-// console.log(myFirstTree.levelOrder(myFirstTree.root));
-// console.log(myFirstTree.preorder(myFirstTree.root));
-// console.log(myFirstTree.inorder(myFirstTree.root));
-// console.log(myFirstTree.postorder(myFirstTree.root));
-// console.log(myFirstTree.height(myFirstTree.root));
-// console.log(myFirstTree.isBalanced(myFirstTree.root));
-// myFirstTree.prettyPrint(myFirstTree.root);
+myFirstTree.prettyPrint(myFirstTree.root);
+console.log(`Balanced: ${myFirstTree.isBalanced(myFirstTree.root)}`);
+console.log(`Height: ${myFirstTree.height(myFirstTree.root)}`);
+console.log(`Min: ${myFirstTree.minValue(myFirstTree.root)}`);
+console.log(myFirstTree.levelOrder(myFirstTree.root));
+console.log(myFirstTree.preorder(myFirstTree.root));
+console.log(myFirstTree.inorder(myFirstTree.root));
+console.log(myFirstTree.postorder(myFirstTree.root));
 
-mySecondTree.insertNode(mySecondTree.root, 8);
-mySecondTree.insertNode(mySecondTree.root, 10);
-mySecondTree.insertNode(mySecondTree.root, 11);
-mySecondTree.insertNode(mySecondTree.root, 9);
-console.log(mySecondTree.isBalanced(mySecondTree.root));
-mySecondTree.prettyPrint(mySecondTree.root);
-mySecondTree.prettyPrint(mySecondTree.rebalance(mySecondTree.root));
-mySecondTree.rebalance(mySecondTree.root);
-console.log(mySecondTree.isBalanced(mySecondTree.rebalance(mySecondTree.root)));
+myFirstTree.insertNode(myFirstTree.root, randomInt());
+myFirstTree.insertNode(myFirstTree.root, randomInt());
+myFirstTree.insertNode(myFirstTree.root, randomInt());
+myFirstTree.insertNode(myFirstTree.root, randomInt());
+myFirstTree.prettyPrint(myFirstTree.root);
+console.log(`Balanced: ${myFirstTree.isBalanced(myFirstTree.root)}`);
+console.log(`Height: ${myFirstTree.height(myFirstTree.root)}`);
+
+const rebalancedTree = myFirstTree.rebalance(myFirstTree.root);
+myFirstTree.prettyPrint(rebalancedTree);
+console.log(`Balanced: ${myFirstTree.isBalanced(rebalancedTree)}`);
+console.log(`Height: ${myFirstTree.height(rebalancedTree)}`);
